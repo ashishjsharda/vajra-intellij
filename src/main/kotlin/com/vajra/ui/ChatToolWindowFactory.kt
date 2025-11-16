@@ -1,19 +1,15 @@
 package com.vajra.ui
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTextArea
 import com.vajra.config.VajraSettings
 import com.vajra.providers.ProviderManager
 import com.vajra.utils.EditorUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.swing.Swing
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
 import java.awt.BorderLayout
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
@@ -33,7 +29,6 @@ class ChatPanel(private val project: Project) : JPanel(BorderLayout()) {
     private val inputField = JTextField()
     private val sendButton = JButton("Send")
     private val providerManager = ProviderManager()
-    private val scope = CoroutineScope(Dispatchers.Main)
     
     init {
         setupUI()
@@ -76,15 +71,18 @@ class ChatPanel(private val project: Project) : JPanel(BorderLayout()) {
         inputField.text = ""
         appendMessage("You", message)
         
-        scope.launch {
+        // Run in background thread
+        ApplicationManager.getApplication().executeOnPooledThread {
             try {
                 val settings = VajraSettings.getInstance().state
                 val provider = providerManager.getProvider(settings.defaultProvider)
                     ?: throw Exception("Provider ${settings.defaultProvider} not found")
                 
                 if (!provider.isConfigured()) {
-                    appendMessage("Vajra", "Please configure your API key in Settings > Tools > Vajra")
-                    return@launch
+                    SwingUtilities.invokeLater {
+                        appendMessage("Vajra", "Please configure your API key in Settings > Tools > Vajra")
+                    }
+                    return@executeOnPooledThread
                 }
                 
                 // Add code context if available
@@ -95,14 +93,19 @@ class ChatPanel(private val project: Project) : JPanel(BorderLayout()) {
                     contextualMessage = "Here's my $language code:\n```$language\n$selectedText\n```\n\nQuestion: $message"
                 }
                 
-                val response = withContext(Dispatchers.IO) {
+                // Make synchronous call (provider methods are suspend, but we'll make them blocking)
+                val response = runBlocking {
                     provider.sendMessage(contextualMessage, settings.defaultModel)
                 }
                 
-                appendMessage("Vajra", response)
+                SwingUtilities.invokeLater {
+                    appendMessage("Vajra", response)
+                }
                 
             } catch (e: Exception) {
-                appendMessage("Error", e.message ?: "Unknown error occurred")
+                SwingUtilities.invokeLater {
+                    appendMessage("Error", e.message ?: "Unknown error occurred")
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.vajra.intellij</id>
-    <name>Vajra - AI Coding Assistant</name>
-    <vendor email="ashish@vajra-ai.com" url="https://github.com/ashishjsharda">Ashish Sharda</vendor>
+    <n>Vajra - AI Coding Assistant</n>
+    <vendor email="ashishjsharda@gmail.com" url="https://github.com/ashishjsharda">Ashish Sharda</vendor>
 
     <description><![CDATA[
     <h2>Enterprise-Grade Multi-Provider AI Coding Assistant</h2>
@@ -30,7 +30,7 @@
     </ul>
     
     <p><a href="https://github.com/ashishjsharda/vajra-intellij">GitHub</a> | 
-       <a href="https://vajra-ai.com/docs">Documentation</a></p>
+       <a href="mailto:ashishjsharda@gmail.com">Support</a></p>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>

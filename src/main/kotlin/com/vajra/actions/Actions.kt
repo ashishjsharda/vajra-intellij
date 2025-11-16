@@ -2,15 +2,14 @@ package com.vajra.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.wm.ToolWindowManager
 import com.vajra.config.VajraSettings
 import com.vajra.providers.ProviderManager
 import com.vajra.utils.EditorUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
+import javax.swing.SwingUtilities
 
 class OpenChatAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
@@ -81,29 +80,35 @@ abstract class CodeAction : AnAction() {
         val language = EditorUtils.getLanguage(project) ?: "code"
         val prompt = promptBuilder(language, selectedText)
         
-        CoroutineScope(Dispatchers.Main).launch {
+        ApplicationManager.getApplication().executeOnPooledThread {
             try {
                 val settings = VajraSettings.getInstance().state
                 val providerManager = ProviderManager()
                 val provider = providerManager.getProvider(settings.defaultProvider)
                 
                 if (provider == null || !provider.isConfigured()) {
-                    Messages.showErrorDialog(
-                        project,
-                        "Please configure your API key in Settings > Tools > Vajra",
-                        "Provider Not Configured"
-                    )
-                    return@launch
+                    SwingUtilities.invokeLater {
+                        Messages.showErrorDialog(
+                            project,
+                            "Please configure your API key in Settings > Tools > Vajra",
+                            "Provider Not Configured"
+                        )
+                    }
+                    return@executeOnPooledThread
                 }
                 
-                val response = withContext(Dispatchers.IO) {
+                val response = runBlocking {
                     provider.sendMessage(prompt, settings.defaultModel)
                 }
                 
-                Messages.showInfoMessage(project, response, "$actionType Result")
+                SwingUtilities.invokeLater {
+                    Messages.showInfoMessage(project, response, "$actionType Result")
+                }
                 
             } catch (ex: Exception) {
-                Messages.showErrorDialog(project, ex.message ?: "Unknown error", "Error")
+                SwingUtilities.invokeLater {
+                    Messages.showErrorDialog(project, ex.message ?: "Unknown error", "Error")
+                }
             }
         }
     }
