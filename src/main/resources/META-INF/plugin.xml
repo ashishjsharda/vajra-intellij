@@ -1,0 +1,120 @@
+<idea-plugin>
+    <id>com.vajra.intellij</id>
+    <name>Vajra - AI Coding Assistant</name>
+    <vendor email="ashish@vajra-ai.com" url="https://github.com/ashishjsharda">Ashish Sharda</vendor>
+
+    <description><![CDATA[
+    <h2>Enterprise-Grade Multi-Provider AI Coding Assistant</h2>
+    
+    <p>Vajra brings the power of GPT-5, Claude 4, Qwen3-Coder, DeepSeek-R1, and 10+ cutting-edge AI models directly into IntelliJ IDEA.</p>
+    
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>10+ AI Providers</strong>: OpenAI, Claude, Qwen, DeepSeek, Mistral, Gemini, Groq, Ollama, and more</li>
+        <li><strong>Local Models</strong>: Full Ollama support for privacy-first development</li>
+        <li><strong>Smart Code Actions</strong>: Explain, Refactor, Debug, Optimize, Generate Tests</li>
+        <li><strong>Interactive Chat</strong>: Context-aware conversations with your codebase</li>
+        <li><strong>Intelligent Routing</strong>: Automatically selects the best model for each task</li>
+        <li><strong>Enterprise Security</strong>: Local deployment options, audit trails, SOC 2 ready</li>
+    </ul>
+    
+    <h3>Supported Models:</h3>
+    <ul>
+        <li>GPT-5, GPT-5 Codex (OpenAI)</li>
+        <li>Claude 4 Sonnet/Opus (Anthropic)</li>
+        <li>Qwen3-Coder 480B/32B (Alibaba)</li>
+        <li>DeepSeek-R1, DeepSeek-V3 (DeepSeek)</li>
+        <li>Codestral 25.01 (Mistral)</li>
+        <li>Gemini 2.5 Pro (Google)</li>
+        <li>Local models via Ollama</li>
+    </ul>
+    
+    <p><a href="https://github.com/ashishjsharda/vajra-intellij">GitHub</a> | 
+       <a href="https://vajra-ai.com/docs">Documentation</a></p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.vajra.config.VajraConfigurable"
+                id="com.vajra.config.VajraConfigurable"
+                displayName="Vajra"/>
+
+        <toolWindow
+                id="Vajra Chat"
+                anchor="right"
+                icon="/icons/vajra-icon.svg"
+                factoryClass="com.vajra.ui.ChatToolWindowFactory"/>
+
+        <applicationService
+                serviceImplementation="com.vajra.config.VajraSettings"/>
+    </extensions>
+
+    <actions>
+        <group id="VajraMainGroup" text="Vajra" description="Vajra AI Coding Assistant" popup="true">
+            <add-to-group group-id="MainMenu" anchor="after" relative-to-action="ToolsMenu"/>
+            
+            <action id="Vajra.OpenChat"
+                    class="com.vajra.actions.OpenChatAction"
+                    text="Open Vajra Chat"
+                    description="Open Vajra chat window"/>
+            
+            <action id="Vajra.SelectProvider"
+                    class="com.vajra.actions.SelectProviderAction"
+                    text="Select AI Provider"
+                    description="Choose AI provider"/>
+            
+            <separator/>
+            
+            <action id="Vajra.ShowModelStatus"
+                    class="com.vajra.actions.ShowModelStatusAction"
+                    text="Show Model Status"
+                    description="View available models and benchmarks"/>
+        </group>
+
+        <group id="VajraEditorGroup" text="Vajra" description="Vajra AI Actions" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            
+            <action id="Vajra.ExplainCode"
+                    class="com.vajra.actions.ExplainCodeAction"
+                    text="Explain with Vajra"
+                    description="Explain selected code using AI">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt E"/>
+            </action>
+            
+            <action id="Vajra.RefactorCode"
+                    class="com.vajra.actions.RefactorCodeAction"
+                    text="Refactor with Vajra"
+                    description="Refactor selected code">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt R"/>
+            </action>
+            
+            <action id="Vajra.DebugCode"
+                    class="com.vajra.actions.DebugCodeAction"
+                    text="Debug with Vajra"
+                    description="Debug selected code with AI">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+            </action>
+            
+            <action id="Vajra.OptimizeCode"
+                    class="com.vajra.actions.OptimizeCodeAction"
+                    text="Optimize with Vajra"
+                    description="Optimize code performance"/>
+            
+            <action id="Vajra.AddComments"
+                    class="com.vajra.actions.AddCommentsAction"
+                    text="Add Comments with Vajra"
+                    description="Add documentation comments"/>
+            
+            <action id="Vajra.GenerateTests"
+                    class="com.vajra.actions.GenerateTestsAction"
+                    text="Generate Tests with Vajra"
+                    description="Generate unit tests">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T"/>
+            </action>
+        </group>
+    </actions>
+</idea-plugin>
