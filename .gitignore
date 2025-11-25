@@ -1,9 +1,44 @@
+# Gradle
 .gradle
-.idea
 build
 out
 *.iml
 *.ipr
 *.iws
+
+# IDE
+.idea
+*.iml
+
+# OS
 .DS_Store
+
+# Gradle wrapper jar (optional - some people include this)
 /gradle/wrapper/gradle-wrapper.jar
+
+# Documentation files (not needed in repo)
+DEPLOYMENT.md
+DEPLOYMENT_READY.md
+QUICKSTART.md
+START_HERE.md
+PROJECT_STRUCTURE.md
+FIX_SUMMARY.md
+RELEASE_GUIDE.md
+
+# Keep these important docs
+!README.md
+!CHANGELOG.md
+!LICENSE
+
+# Build artifacts
+*.zip
+*.jar
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~

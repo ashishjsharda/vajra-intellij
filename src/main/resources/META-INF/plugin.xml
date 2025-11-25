@@ -1,12 +1,12 @@
 <idea-plugin>
-    <id>com.vajra.intellij</id>
-    <n>Vajra - AI Coding Assistant</n>
+    <id>com.vajraai.assistant</id>
+    <name>Vajra - AI Coding Assistant</name>
     <vendor email="ashishjsharda@gmail.com" url="https://github.com/ashishjsharda">Ashish Sharda</vendor>
 
     <description><![CDATA[
     <h2>Enterprise-Grade Multi-Provider AI Coding Assistant</h2>
     
-    <p>Vajra brings the power of GPT-5, Claude 4, Qwen3-Coder, DeepSeek-R1, and 10+ cutting-edge AI models directly into IntelliJ IDEA.</p>
+    <p>Vajra brings the power of GPT-4o, Claude 4, Qwen-Coder, and 10+ cutting-edge AI models directly into IntelliJ IDEA.</p>
     
     <h3>Key Features:</h3>
     <ul>
@@ -20,14 +20,24 @@
     
     <h3>Supported Models:</h3>
     <ul>
-        <li>GPT-5, GPT-5 Codex (OpenAI)</li>
-        <li>Claude 4 Sonnet/Opus (Anthropic)</li>
-        <li>Qwen3-Coder 480B/32B (Alibaba)</li>
-        <li>DeepSeek-R1, DeepSeek-V3 (DeepSeek)</li>
-        <li>Codestral 25.01 (Mistral)</li>
-        <li>Gemini 2.5 Pro (Google)</li>
-        <li>Local models via Ollama</li>
+        <li>GPT-4o, GPT-4o Mini, GPT-4 Turbo (OpenAI)</li>
+        <li>Claude Sonnet 4, Claude 3.5 Sonnet, Claude 3 Opus (Anthropic)</li>
+        <li>Qwen2.5-Coder 32B/7B (Alibaba)</li>
+        <li>DeepSeek-Coder V2 (DeepSeek)</li>
+        <li>Codestral (Mistral)</li>
+        <li>Gemini Pro (Google)</li>
+        <li>Local models via Ollama (Qwen-Coder, CodeLlama, and more)</li>
     </ul>
+    
+    <h3>Quick Start:</h3>
+    <ol>
+        <li>Go to Settings > Tools > Vajra</li>
+        <li>Enter your OpenAI API key (or other provider)</li>
+        <li>Open Vajra Chat from View > Tool Windows</li>
+        <li>Start coding with AI assistance!</li>
+    </ol>
+    
+    <p><strong>Latest Update (v0.2.1):</strong> Fixed OpenAI API compatibility and improved error handling</p>
     
     <p><a href="https://github.com/ashishjsharda/vajra-intellij">GitHub</a> | 
        <a href="mailto:ashishjsharda@gmail.com">Support</a></p>

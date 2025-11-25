@@ -18,8 +18,8 @@ class VajraSettings : PersistentStateComponent<VajraSettings.State> {
         var openrouterApiKey: String = "",
         var huggingfaceApiKey: String = "",
         var ollamaEndpoint: String = "http://localhost:11434",
-        var defaultProvider: String = "qwen",
-        var defaultModel: String = "qwen2.5-coder-7b-instruct",
+        var defaultProvider: String = "openai",  // Changed to openai
+        var defaultModel: String = "gpt-4o",     // Updated to actual model name
         var temperature: Double = 0.7,
         var maxTokens: Int = 4096,
         var enableCostTracking: Boolean = false
