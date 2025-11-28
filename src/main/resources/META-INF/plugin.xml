@@ -61,6 +61,12 @@
 
         <applicationService
                 serviceImplementation="com.vajra.config.VajraSettings"/>
+
+        <applicationService
+                serviceImplementation="com.vajra.ui.VajraInlineService"/>
+        <codeInsight.inlayProvider
+                language=""
+                implementationClass="com.vajra.ui.VajraInlayProvider"/>
     </extensions>
 
     <actions>

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.vajra"
-version = "0.2.2"  // Updated from 0.2.0
+version = "0.2.5"
 
 repositories {
     mavenCentral()
@@ -36,25 +36,47 @@ tasks {
     
     patchPluginXml {
         sinceBuild.set("233")
-        untilBuild.set("243.*")
+        untilBuild.set("253.*")  // FIXED: Restored to 253.*
         
         changeNotes.set("""
-            <h3>0.2.1 - Bug Fix Release</h3>
+            <h3>0.2.5 - Inline Experience & Bug Fixes 🎉</h3>
             <ul>
-                <li>Updated to use gpt-4o as default model (actual API-accessible model)</li>
+                <li><strong>NEW:</strong> Inline AI suggestions like Cursor and GitHub Copilot!</li>
+                <li><strong>NEW:</strong> Ghost text for code suggestions (press Tab to accept)</li>
+                <li><strong>NEW:</strong> Inline diff view with Accept/Reject buttons</li>
+                <li><strong>NEW:</strong> Smart explanation popups right next to your code</li>
+                <li><strong>FIXED:</strong> Threading issues with read/write actions</li>
+                <li><strong>FIXED:</strong> Timeout errors (increased to 60s for cloud, 120s for Ollama)</li>
+                <li><strong>FIXED:</strong> Markdown formatting in AI responses</li>
+                <li><strong>IMPROVED:</strong> No more popup dialogs breaking your flow!</li>
+                <li>All AI responses now appear inline - stay in context while coding</li>
+                <li>Added proper plugin icon</li>
+            </ul>
+            
+            <h3>0.2.4</h3>
+            <ul>
+                <li>Fixed compatibility range (now supports up to 253.*)</li>
+                <li>Internal improvements</li>
+            </ul>
+            
+            <h3>0.2.3</h3>
+            <ul>
+                <li>Internal improvements and bug fixes</li>
+            </ul>
+            
+            <h3>0.2.1</h3>
+            <ul>
+                <li>Updated to use gpt-4o as default model</li>
                 <li>Improved error handling with detailed error messages from API</li>
                 <li>Updated Anthropic Claude model names to proper API format</li>
-                <li>Added proper Content-Type headers for all API requests</li>
             </ul>
             
             <h3>0.2.0</h3>
             <ul>
                 <li>Initial release of Vajra for IntelliJ IDEA</li>
-                <li>Support for 10+ AI providers (OpenAI, Claude, Qwen, and more)</li>
-                <li>Interactive chat interface with context awareness</li>
-                <li>Code actions: Explain, Refactor, Debug, Optimize, Generate Tests</li>
-                <li>Local model support via Ollama</li>
-                <li>Multi-provider intelligent routing</li>
+                <li>Support for 10+ AI providers</li>
+                <li>Interactive chat interface</li>
+                <li>Code actions and local model support</li>
             </ul>
         """.trimIndent())
     }

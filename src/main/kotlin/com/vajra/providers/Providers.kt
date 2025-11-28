@@ -7,17 +7,17 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class OpenAIProvider : AIProvider {
     override val name = "openai"
     override val displayName = "OpenAI"
-    // November 2025 available models - using actual OpenAI API model names
     override val models = listOf(
-        "gpt-4o",           // Most versatile, current flagship
-        "gpt-4o-mini",      // Efficient variant  
-        "gpt-4-turbo",      // Still available
-        "o1-preview",       // Reasoning model
-        "gpt-3.5-turbo"     // Budget-friendly
+        "gpt-4o",           
+        "gpt-4o-mini",      
+        "gpt-4-turbo",      
+        "o1-preview",       
+        "gpt-3.5-turbo"     
     )
     
     override fun isConfigured(): Boolean {
@@ -28,7 +28,13 @@ class OpenAIProvider : AIProvider {
         val apiKey = VajraSettings.getInstance().state.openaiApiKey
         if (apiKey.isEmpty()) throw Exception("OpenAI API key not configured")
         
-        val client = OkHttpClient()
+        // Increased timeout: 60 seconds
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
+            
         val gson = Gson()
         
         val selectedModel = model ?: "gpt-4o"
@@ -53,7 +59,6 @@ class OpenAIProvider : AIProvider {
         return client.newCall(request).execute().use { response ->
             val responseBody = response.body?.string()
             if (!response.isSuccessful) {
-                // Better error handling - show the actual error message from OpenAI
                 val errorDetails = try {
                     val errorJson = gson.fromJson(responseBody, JsonObject::class.java)
                     errorJson.getAsJsonObject("error")?.get("message")?.asString
@@ -75,11 +80,10 @@ class OpenAIProvider : AIProvider {
 class AnthropicProvider : AIProvider {
     override val name = "anthropic"
     override val displayName = "Claude"
-    // Updated to actual Anthropic API model names
     override val models = listOf(
-        "claude-sonnet-4-20250514",     // Latest Sonnet
-        "claude-3-5-sonnet-20241022",   // Claude 3.5 Sonnet
-        "claude-3-opus-20240229"        // Claude 3 Opus
+        "claude-sonnet-4-20250514",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-opus-20240229"
     )
     
     override fun isConfigured(): Boolean {
@@ -90,7 +94,13 @@ class AnthropicProvider : AIProvider {
         val apiKey = VajraSettings.getInstance().state.anthropicApiKey
         if (apiKey.isEmpty()) throw Exception("Anthropic API key not configured")
         
-        val client = OkHttpClient()
+        // Increased timeout: 60 seconds
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
+            
         val gson = Gson()
         
         val requestBody = mapOf(
@@ -143,7 +153,13 @@ class QwenProvider : AIProvider {
         val apiKey = VajraSettings.getInstance().state.qwenApiKey
         if (apiKey.isEmpty()) throw Exception("Qwen API key not configured")
         
-        val client = OkHttpClient()
+        // Increased timeout: 60 seconds
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .build()
+            
         val gson = Gson()
         
         val requestBody = mapOf(
@@ -191,7 +207,14 @@ class OllamaProvider : AIProvider {
     
     override suspend fun sendMessage(message: String, model: String?): String {
         val endpoint = VajraSettings.getInstance().state.ollamaEndpoint
-        val client = OkHttpClient()
+        
+        // Increased timeout: 120 seconds for local models
+        val client = OkHttpClient.Builder()
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
+            
         val gson = Gson()
         
         val requestBody = mapOf(
