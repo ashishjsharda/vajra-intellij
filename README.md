@@ -94,7 +94,7 @@ Vajra: Here are 3 ways to optimize your query...
 ## 🔗 Other IDEs
 
 - **VSCode**: [Vajra for VSCode](https://github.com/ashishjsharda/Vajra)
-- **Documentation**: [docs.vajra-ai.com](https://vajra-ai.com/docs)
+
 
 ## 🤝 Contributing
 
@@ -107,8 +107,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 ## 🆘 Support
 
 - **Issues**: [GitHub Issues](https://github.com/ashishjsharda/vajra-intellij/issues)
-- **Email**: support@vajra-ai.com
-- **Discord**: [Join our community](https://discord.gg/vajra-ai)
+
 
 ---
 
