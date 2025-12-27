@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.vajra"
-version = "0.2.5"
+version = "0.2.7" // UPDATED: Bumped to 0.2.7 per your request
 
 repositories {
     mavenCentral()
@@ -29,16 +29,29 @@ tasks {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
-    
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
-    
+
     patchPluginXml {
         sinceBuild.set("233")
-        untilBuild.set("253.*")  // FIXED: Restored to 253.*
-        
+        untilBuild.set("253.*")
+
         changeNotes.set("""
+            <h3>0.2.7 - New Sexy Chat UI 💅</h3>
+            <ul>
+                <li><strong>NEW:</strong> Complete Chat UI overhaul - looks just like Cursor!</li>
+                <li><strong>NEW:</strong> Bubble-style messages with proper code formatting</li>
+                <li><strong>NEW:</strong> Easy model switching dropdown (Provider + Model)</li>
+                <li><strong>NEW:</strong> "Smart Context" toggles for better AI awareness</li>
+            </ul>
+            
+            <h3>0.2.6</h3>
+            <ul>
+                <li>Maintenance release and internal improvements</li>
+            </ul>
+
             <h3>0.2.5 - Inline Experience & Bug Fixes 🎉</h3>
             <ul>
                 <li><strong>NEW:</strong> Inline AI suggestions like Cursor and GitHub Copilot!</li>
@@ -80,7 +93,7 @@ tasks {
             </ul>
         """.trimIndent())
     }
-    
+
     buildSearchableOptions {
         enabled = false
     }
